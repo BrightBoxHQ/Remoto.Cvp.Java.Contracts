@@ -1,0 +1,1295 @@
+﻿syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+package remoto.cvp.services.vehiclestatetracking;
+option csharp_namespace = "Remoto.Cvp.Services.VehicleStateTracking.Contracts";
+
+enum DeviceOnlineStatus {
+
+    DOS_OFFLINE = 0;
+
+    DOS_SLEEPING = 1;
+
+    DOS_ONLINE = 2;
+}
+
+enum WakeUpCause {
+
+    WAKEUP_UNSPECIFIED = 0;
+
+    WAKEUP_TIMEOUT = 1;
+
+    WAKEUP_VEHICLE_EVENT = 2;
+
+    WAKEUP_CAN_ACTIVITY = 3;
+
+    WAKEUP_LIN_ACTIVITY = 4;
+
+    WAKEUP_VOLTAGE_CONTROLLED = 5;
+
+    WAKEUP_VOLTAGE_DROP = 6;
+
+    WAKEUP_VOLTAGE_THRESHOLD = 7;
+
+    WAKEUP_SMS = 8;
+}
+
+enum SleepCause {
+
+    SLEEP_UNSPECIFIED = 0;
+
+    SLEEP_NORMAL = 1;
+
+    SLEEP_FORCED = 2;
+
+    SLEEP_VOLTAGE_CONTROLLED = 3;
+
+    SLEEP_SMS = 4;
+
+    SLEEP_FORCED_SMS = 5;
+}
+
+enum OfflineCause {
+
+    OFFLINE_UNSPECIFIED = 0;
+
+    OFFLINE_SLEEP_EXPIRATION = 1;
+}
+
+enum GearboxPosition {
+
+    GEARBOX_UNSPECIFIED = 0;
+
+    GEARBOX_UNAVAILABLE = 1;
+
+    GEARBOX_PARKING = 2;
+
+    GEARBOX_REVERSE = 3;
+
+    GEARBOX_NEUTRAL = 4;
+
+    GEARBOX_DRIVE = 5;
+
+    GEARBOX_MANUAL_DRIVE = 6;
+}
+
+enum TireStatus {
+
+    TIRE_UNSPECIFIED = 0;
+
+    TIRE_UNAVAILABLE = 1;
+
+    TIRE_NORMAL = 2;
+
+    TIRE_LOW = 3;
+
+    TIRE_CRITICAL = 4;
+
+    TIRE_FAILURE = 5;
+}
+
+enum TelemetryTrackingMode {
+
+    TTM_UNSPECIFIED = 0;
+
+    TTM_NOTHING = 1;
+
+    TTM_PROOF_OF_OWNERSHIP = 2;
+
+    TTM_HIDE_LOCATION = 3;
+
+    TTM_EVERYTHING = 4;
+}
+
+enum VehicleMileageSource {
+
+    VMS_UNSPECIFIED = 0;
+
+    VMS_ORIGINAL = 1;
+
+    VMS_ABSOLUTE = 2;
+
+    VMS_EXTERNAL = 3;
+}
+
+message DeviceOnlineState {
+
+    int64 timestamp = 100;
+
+    int64 processingTime = 101;
+
+    DeviceOnlineStatus status = 102;
+
+    WakeUpCause wakeUpCause = 103;
+
+    SleepCause sleepCause = 104;
+
+    google.protobuf.Int32Value sleepTimeout = 105;
+
+    OfflineCause offlineCause = 106;
+}
+
+message DeviceOnlineStateFields {
+
+    bool timestamp = 100;
+
+    bool processingTime = 101;
+
+    bool status = 102;
+
+    bool wakeUpCause = 103;
+
+    bool sleepCause = 104;
+
+    bool sleepTimeout = 105;
+
+    bool offlineCause = 106;
+}
+
+message TelemetryState {
+
+    int64 timestamp = 100;
+
+    int64 serverTime = 101;
+
+    google.protobuf.UInt32Value deviceTime = 102;
+
+    int64 processingTime = 103;
+
+    int64 enqueueTime = 104;
+
+    google.protobuf.DoubleValue mileage = 200;
+
+    google.protobuf.Int64Value mileageTimestamp = 1200;
+
+    VehicleMileageSource mileageSource = 201;
+
+    google.protobuf.Int64Value mileageSourceTimestamp = 1201;
+
+    google.protobuf.DoubleValue odometerCorrection = 202;
+
+    google.protobuf.Int64Value odometerCorrectionTimestamp = 1202;
+
+    TelemetryTrackingMode telemetryTracking = 203;
+
+    google.protobuf.Int64Value telemetryTrackingTimestamp = 1203;
+
+    google.protobuf.DoubleValue originalUnitVoltage = 204;
+
+    google.protobuf.Int64Value originalUnitVoltageTimestamp = 1204;
+
+    google.protobuf.BoolValue proofDetectedSetByServer = 205;
+
+    google.protobuf.UInt32Value accelerationsCount = 300;
+
+    google.protobuf.Int64Value accelerationsCountTimestamp = 1300;
+
+    google.protobuf.UInt32Value decelerationsCount = 301;
+
+    google.protobuf.Int64Value decelerationsCountTimestamp = 1301;
+
+    google.protobuf.UInt32Value highSpeedSeconds = 302;
+
+    google.protobuf.Int64Value highSpeedSecondsTimestamp = 1302;
+
+    google.protobuf.BoolValue locationNotTracked = 303;
+
+    google.protobuf.Int64Value locationNotTrackedTimestamp = 1303;
+
+    google.protobuf.DoubleValue originalMileage = 500;
+
+    google.protobuf.Int64Value originalMileageTimestamp = 1500;
+
+    google.protobuf.UInt32Value engineRpm = 501;
+
+    google.protobuf.Int64Value engineRpmTimestamp = 1501;
+
+    google.protobuf.DoubleValue longitude = 502;
+
+    google.protobuf.Int64Value longitudeTimestamp = 1502;
+
+    google.protobuf.DoubleValue latitude = 503;
+
+    google.protobuf.Int64Value latitudeTimestamp = 1503;
+
+    google.protobuf.UInt32Value satellitesCount = 504;
+
+    google.protobuf.Int64Value satellitesCountTimestamp = 1504;
+
+    google.protobuf.UInt32Value heading = 505;
+
+    google.protobuf.Int64Value headingTimestamp = 1505;
+
+    google.protobuf.DoubleValue dilution = 506;
+
+    google.protobuf.Int64Value dilutionTimestamp = 1506;
+
+    google.protobuf.UInt32Value speed = 507;
+
+    google.protobuf.Int64Value speedTimestamp = 1507;
+
+    google.protobuf.DoubleValue accX = 508;
+
+    google.protobuf.Int64Value accXTimestamp = 1508;
+
+    google.protobuf.DoubleValue accY = 509;
+
+    google.protobuf.Int64Value accYTimestamp = 1509;
+
+    google.protobuf.DoubleValue accZ = 510;
+
+    google.protobuf.Int64Value accZTimestamp = 1510;
+
+    google.protobuf.UInt32Value headingMems = 511;
+
+    google.protobuf.Int64Value headingMemsTimestamp = 1511;
+
+    google.protobuf.DoubleValue absoluteMileage = 512;
+
+    google.protobuf.Int64Value absoluteMileageTimestamp = 1512;
+
+    google.protobuf.DoubleValue extMileage = 513;
+
+    google.protobuf.Int64Value extMileageTimestamp = 1513;
+
+    google.protobuf.DoubleValue computedLongitude = 514;
+
+    google.protobuf.Int64Value computedLongitudeTimestamp = 1514;
+
+    google.protobuf.DoubleValue computedLatitude = 515;
+
+    google.protobuf.Int64Value computedLatitudeTimestamp = 1515;
+
+    google.protobuf.DoubleValue mileageTripA = 516;
+
+    google.protobuf.Int64Value mileageTripATimestamp = 1516;
+
+    google.protobuf.DoubleValue mileageTripB = 517;
+
+    google.protobuf.Int64Value mileageTripBTimestamp = 1517;
+
+    google.protobuf.Int32Value unitTemperature = 700;
+
+    google.protobuf.Int64Value unitTemperatureTimestamp = 1700;
+
+    google.protobuf.DoubleValue unitVoltage = 701;
+
+    google.protobuf.Int64Value unitVoltageTimestamp = 1701;
+
+    google.protobuf.UInt32Value strongPunch = 702;
+
+    google.protobuf.Int64Value strongPunchTimestamp = 1702;
+
+    google.protobuf.UInt32Value weakPunch = 703;
+
+    google.protobuf.Int64Value weakPunchTimestamp = 1703;
+
+    google.protobuf.BoolValue towing = 704;
+
+    google.protobuf.Int64Value towingTimestamp = 1704;
+
+    google.protobuf.BoolValue centralLockIsClosed = 705;
+
+    google.protobuf.Int64Value centralLockIsClosedTimestamp = 1705;
+
+    google.protobuf.BoolValue driverDoorIsOpen = 706;
+
+    google.protobuf.Int64Value driverDoorIsOpenTimestamp = 1706;
+
+    google.protobuf.BoolValue passengerDoorIsOpen = 707;
+
+    google.protobuf.Int64Value passengerDoorIsOpenTimestamp = 1707;
+
+    google.protobuf.BoolValue driverRearDoorIsOpen = 708;
+
+    google.protobuf.Int64Value driverRearDoorIsOpenTimestamp = 1708;
+
+    google.protobuf.BoolValue passengerRearDoorIsOpen = 709;
+
+    google.protobuf.Int64Value passengerRearDoorIsOpenTimestamp = 1709;
+
+    google.protobuf.BoolValue trunkIsOpen = 710;
+
+    google.protobuf.Int64Value trunkIsOpenTimestamp = 1710;
+
+    google.protobuf.BoolValue hoodIsOpen = 711;
+
+    google.protobuf.Int64Value hoodIsOpenTimestamp = 1711;
+
+    google.protobuf.UInt32Value fuelLiters = 712;
+
+    google.protobuf.Int64Value fuelLitersTimestamp = 1712;
+
+    google.protobuf.UInt32Value fuelPercents = 713;
+
+    google.protobuf.Int64Value fuelPercentsTimestamp = 1713;
+
+    google.protobuf.DoubleValue fuelConsumption = 714;
+
+    google.protobuf.Int64Value fuelConsumptionTimestamp = 1714;
+
+    google.protobuf.UInt32Value cruisingRange = 715;
+
+    google.protobuf.Int64Value cruisingRangeTimestamp = 1715;
+
+    google.protobuf.Int32Value innerTemperature = 716;
+
+    google.protobuf.Int64Value innerTemperatureTimestamp = 1716;
+
+    google.protobuf.Int32Value outerTemperature = 717;
+
+    google.protobuf.Int64Value outerTemperatureTimestamp = 1717;
+
+    google.protobuf.Int32Value engineTemperature = 718;
+
+    google.protobuf.Int64Value engineTemperatureTimestamp = 1718;
+
+    google.protobuf.UInt32Value oilPercents = 719;
+
+    google.protobuf.Int64Value oilPercentsTimestamp = 1719;
+
+    google.protobuf.Int32Value oilTemperature = 720;
+
+    google.protobuf.Int64Value oilTemperatureTimestamp = 1720;
+
+    google.protobuf.Int32Value oilReplaceDistance = 721;
+
+    google.protobuf.Int64Value oilReplaceDistanceTimestamp = 1721;
+
+    google.protobuf.BoolValue airConditionerIsOn = 722;
+
+    google.protobuf.Int64Value airConditionerIsOnTimestamp = 1722;
+
+    google.protobuf.BoolValue brakeFluidTrouble = 723;
+
+    google.protobuf.Int64Value brakeFluidTroubleTimestamp = 1723;
+
+    google.protobuf.UInt32Value gsmSignalLevel = 724;
+
+    google.protobuf.Int64Value gsmSignalLevelTimestamp = 1724;
+
+    google.protobuf.BoolValue airbagCutOff = 725;
+
+    google.protobuf.Int64Value airbagCutOffTimestamp = 1725;
+
+    TireStatus tireStatus = 726;
+
+    google.protobuf.Int64Value tireStatusTimestamp = 1726;
+
+    TireStatus tireStatusFrontLeft = 727;
+
+    google.protobuf.Int64Value tireStatusFrontLeftTimestamp = 1727;
+
+    TireStatus tireStatusFrontRight = 728;
+
+    google.protobuf.Int64Value tireStatusFrontRightTimestamp = 1728;
+
+    TireStatus tireStatusRearLeft = 729;
+
+    google.protobuf.Int64Value tireStatusRearLeftTimestamp = 1729;
+
+    TireStatus tireStatusRearRight = 730;
+
+    google.protobuf.Int64Value tireStatusRearRightTimestamp = 1730;
+
+    google.protobuf.DoubleValue tirePressureFrontLeftDBar = 731;
+
+    google.protobuf.Int64Value tirePressureFrontLeftDBarTimestamp = 1731;
+
+    google.protobuf.DoubleValue tirePressureFrontRightDBar = 732;
+
+    google.protobuf.Int64Value tirePressureFrontRightDBarTimestamp = 1732;
+
+    google.protobuf.DoubleValue tirePressureRearLeftDBar = 733;
+
+    google.protobuf.Int64Value tirePressureRearLeftDBarTimestamp = 1733;
+
+    google.protobuf.DoubleValue tirePressureRearRightDBar = 734;
+
+    google.protobuf.Int64Value tirePressureRearRightDBarTimestamp = 1734;
+
+    GearboxPosition gearboxPosition = 735;
+
+    google.protobuf.Int64Value gearboxPositionTimestamp = 1735;
+
+    google.protobuf.BoolValue ignitionIsOn = 736;
+
+    google.protobuf.Int64Value ignitionIsOnTimestamp = 1736;
+
+    google.protobuf.BoolValue lightsAreOn = 737;
+
+    google.protobuf.Int64Value lightsAreOnTimestamp = 1737;
+
+    google.protobuf.BoolValue driverSeatBeltIsFasten = 738;
+
+    google.protobuf.Int64Value driverSeatBeltIsFastenTimestamp = 1738;
+
+    google.protobuf.BoolValue passengerSeatBeltIsFasten = 739;
+
+    google.protobuf.Int64Value passengerSeatBeltIsFastenTimestamp = 1739;
+
+    google.protobuf.BoolValue rearLeftSeatBeltIsFasten = 740;
+
+    google.protobuf.Int64Value rearLeftSeatBeltIsFastenTimestamp = 1740;
+
+    google.protobuf.BoolValue rearCentralSeatBeltIsFasten = 741;
+
+    google.protobuf.Int64Value rearCentralSeatBeltIsFastenTimestamp = 1741;
+
+    google.protobuf.BoolValue rearRightSeatBeltIsFasten = 742;
+
+    google.protobuf.Int64Value rearRightSeatBeltIsFastenTimestamp = 1742;
+
+    google.protobuf.BoolValue driverWindowIsOpen = 743;
+
+    google.protobuf.Int64Value driverWindowIsOpenTimestamp = 1743;
+
+    google.protobuf.BoolValue passengerWindowIsOpen = 744;
+
+    google.protobuf.Int64Value passengerWindowIsOpenTimestamp = 1744;
+
+    google.protobuf.BoolValue driverRearWindowIsOpen = 745;
+
+    google.protobuf.Int64Value driverRearWindowIsOpenTimestamp = 1745;
+
+    google.protobuf.BoolValue passengerRearWindowIsOpen = 746;
+
+    google.protobuf.Int64Value passengerRearWindowIsOpenTimestamp = 1746;
+
+    google.protobuf.BoolValue trunkWindowIsOpen = 747;
+
+    google.protobuf.Int64Value trunkWindowIsOpenTimestamp = 1747;
+
+    google.protobuf.BoolValue sunroofIsOpen = 748;
+
+    google.protobuf.Int64Value sunroofIsOpenTimestamp = 1748;
+
+    google.protobuf.BoolValue engineIsStarted = 749;
+
+    google.protobuf.Int64Value engineIsStartedTimestamp = 1749;
+
+    google.protobuf.BoolValue handbrakeIsSet = 750;
+
+    google.protobuf.Int64Value handbrakeIsSetTimestamp = 1750;
+
+    google.protobuf.BoolValue engineTemperatureTrouble = 751;
+
+    google.protobuf.Int64Value engineTemperatureTroubleTimestamp = 1751;
+
+    google.protobuf.BoolValue checkEngineTrouble = 752;
+
+    google.protobuf.Int64Value checkEngineTroubleTimestamp = 1752;
+
+    google.protobuf.BoolValue absEspIsDisabled = 753;
+
+    google.protobuf.Int64Value absEspIsDisabledTimestamp = 1753;
+
+    google.protobuf.BoolValue gearboxTemperatureTrouble = 754;
+
+    google.protobuf.Int64Value gearboxTemperatureTroubleTimestamp = 1754;
+
+    google.protobuf.BoolValue maintenanceRequired = 755;
+
+    google.protobuf.Int64Value maintenanceRequiredTimestamp = 1755;
+
+    google.protobuf.BoolValue oilPressureTrouble = 756;
+
+    google.protobuf.Int64Value oilPressureTroubleTimestamp = 1756;
+
+    google.protobuf.BoolValue batteryTrouble = 757;
+
+    google.protobuf.Int64Value batteryTroubleTimestamp = 1757;
+
+    google.protobuf.BoolValue airbagTrouble = 758;
+
+    google.protobuf.Int64Value airbagTroubleTimestamp = 1758;
+
+    google.protobuf.BoolValue tractionControlTrouble = 759;
+
+    google.protobuf.Int64Value tractionControlTroubleTimestamp = 1759;
+
+    google.protobuf.BoolValue headlightsTrouble = 760;
+
+    google.protobuf.Int64Value headlightsTroubleTimestamp = 1760;
+
+    google.protobuf.BoolValue washerFluidAlert = 761;
+
+    google.protobuf.Int64Value washerFluidAlertTimestamp = 1761;
+
+    google.protobuf.BoolValue evBatteryIsCharging = 762;
+
+    google.protobuf.Int64Value evBatteryIsChargingTimestamp = 1762;
+
+    google.protobuf.UInt32Value evBatteryLevelPercents = 763;
+
+    google.protobuf.Int64Value evBatteryLevelPercentsTimestamp = 1763;
+
+    google.protobuf.UInt32Value evBatteryCruisingRange = 764;
+
+    google.protobuf.Int64Value evBatteryCruisingRangeTimestamp = 1764;
+
+    google.protobuf.BoolValue evPowerDownAlert = 765;
+
+    google.protobuf.Int64Value evPowerDownAlertTimestamp = 1765;
+
+    google.protobuf.UInt32Value evBatteryCapacity = 766;
+
+    google.protobuf.Int64Value evBatteryCapacityTimestamp = 1766;
+
+    google.protobuf.DoubleValue evBatteryVoltage = 767;
+
+    google.protobuf.Int64Value evBatteryVoltageTimestamp = 1767;
+
+    google.protobuf.Int32Value evBatteryTemperature = 768;
+
+    google.protobuf.Int64Value evBatteryTemperatureTimestamp = 1768;
+
+    google.protobuf.UInt32Value evBatteryTroubles = 769;
+
+    google.protobuf.Int64Value evBatteryTroublesTimestamp = 1769;
+
+    google.protobuf.UInt32Value oilFreshnessPercents = 770;
+
+    google.protobuf.Int64Value oilFreshnessPercentsTimestamp = 1770;
+
+    google.protobuf.BoolValue parkingBrakeTrouble = 771;
+
+    google.protobuf.Int64Value parkingBrakeTroubleTimestamp = 1771;
+
+    google.protobuf.BoolValue highBeamWarning = 772;
+
+    google.protobuf.Int64Value highBeamWarningTimestamp = 1772;
+
+    google.protobuf.BoolValue powerSteeringTrouble = 773;
+
+    google.protobuf.Int64Value powerSteeringTroubleTimestamp = 1773;
+
+    google.protobuf.BoolValue engineAutoStartWarning = 774;
+
+    google.protobuf.Int64Value engineAutoStartWarningTimestamp = 1774;
+
+    google.protobuf.BoolValue electricMotorTrouble = 775;
+
+    google.protobuf.Int64Value electricMotorTroubleTimestamp = 1775;
+
+    google.protobuf.BoolValue cruiseControlWarning = 776;
+
+    google.protobuf.Int64Value cruiseControlWarningTimestamp = 1776;
+
+    google.protobuf.BoolValue idleStopWarning = 777;
+
+    google.protobuf.Int64Value idleStopWarningTimestamp = 1777;
+
+    google.protobuf.BoolValue tireDeflationMonitoringTrouble = 778;
+
+    google.protobuf.Int64Value tireDeflationMonitoringTroubleTimestamp = 1778;
+
+    google.protobuf.BoolValue tirePressureMonitoringTrouble = 779;
+
+    google.protobuf.Int64Value tirePressureMonitoringTroubleTimestamp = 1779;
+
+    google.protobuf.BoolValue evBatteryDegradationTrouble = 780;
+
+    google.protobuf.Int64Value evBatteryDegradationTroubleTimestamp = 1780;
+
+    google.protobuf.BoolValue oilLevelTrouble = 781;
+
+    google.protobuf.Int64Value oilLevelTroubleTimestamp = 1781;
+
+    google.protobuf.BoolValue chargingSystemTrouble = 782;
+
+    google.protobuf.Int64Value chargingSystemTroubleTimestamp = 1782;
+
+    google.protobuf.BoolValue absEspTrouble = 783;
+
+    google.protobuf.Int64Value absEspTroubleTimestamp = 1783;
+
+    google.protobuf.BoolValue immobilizerWarning = 784;
+
+    google.protobuf.Int64Value immobilizerWarningTimestamp = 1784;
+
+    google.protobuf.Int32Value coolantTemperature = 785;
+
+    google.protobuf.Int64Value coolantTemperatureTimestamp = 1785;
+
+    google.protobuf.BoolValue exhaustBrakeIsOn = 786;
+
+    google.protobuf.Int64Value exhaustBrakeIsOnTimestamp = 1786;
+
+    google.protobuf.UInt32Value acceleratorPedalPercents = 787;
+
+    google.protobuf.Int64Value acceleratorPedalPercentsTimestamp = 1787;
+
+    google.protobuf.UInt32Value engineWorkSeconds = 788;
+
+    google.protobuf.Int64Value engineWorkSecondsTimestamp = 1788;
+
+    google.protobuf.UInt32Value adBluePercents = 789;
+
+    google.protobuf.Int64Value adBluePercentsTimestamp = 1789;
+
+    google.protobuf.BoolValue dprGaugeTrouble = 790;
+
+    google.protobuf.Int64Value dprGaugeTroubleTimestamp = 1790;
+
+    google.protobuf.BoolValue brakeTrouble = 791;
+
+    google.protobuf.Int64Value brakeTroubleTimestamp = 1791;
+
+    google.protobuf.Int32Value refrigeratorTemperature = 792;
+
+    google.protobuf.Int64Value refrigeratorTemperatureTimestamp = 1792;
+
+    google.protobuf.BoolValue truckBodyDoorIsOpen = 793;
+
+    google.protobuf.Int64Value truckBodyDoorIsOpenTimestamp = 1793;
+
+    google.protobuf.UInt32Value fuelLitersExternal = 794;
+
+    google.protobuf.Int64Value fuelLitersExternalTimestamp = 1794;
+
+    google.protobuf.Int32Value distanceTillMaintenance = 795;
+
+    google.protobuf.Int64Value distanceTillMaintenanceTimestamp = 1795;
+
+    google.protobuf.Int32Value frontPadsReplacementDistance = 796;
+
+    google.protobuf.Int64Value frontPadsReplacementDistanceTimestamp = 1796;
+
+    google.protobuf.Int32Value rearPadsReplacementDistance = 797;
+
+    google.protobuf.Int64Value rearPadsReplacementDistanceTimestamp = 1797;
+
+    google.protobuf.UInt32Value plannedMaintenanceDate = 798;
+
+    google.protobuf.Int64Value plannedMaintenanceDateTimestamp = 1798;
+
+    google.protobuf.UInt32Value plannedOilReplaceDate = 799;
+
+    google.protobuf.Int64Value plannedOilReplaceDateTimestamp = 1799;
+
+    google.protobuf.BoolValue proofDetected = 800;
+
+    google.protobuf.Int64Value proofDetectedTimestamp = 1800;
+
+    TireStatus tireStatusSpareWheel = 801;
+
+    google.protobuf.Int64Value tireStatusSpareWheelTimestamp = 1801;
+
+    google.protobuf.DoubleValue tirePressureSpareWheelDBar = 802;
+
+    google.protobuf.Int64Value tirePressureSpareWheelDBarTimestamp = 1802;
+
+    google.protobuf.BoolValue driverDoorIsLocked = 803;
+
+    google.protobuf.Int64Value driverDoorIsLockedTimestamp = 1803;
+
+    google.protobuf.BoolValue passengerDoorIsLocked = 804;
+
+    google.protobuf.Int64Value passengerDoorIsLockedTimestamp = 1804;
+
+    google.protobuf.BoolValue driverRearDoorIsLocked = 805;
+
+    google.protobuf.Int64Value driverRearDoorIsLockedTimestamp = 1805;
+
+    google.protobuf.BoolValue passengerRearDoorIsLocked = 806;
+
+    google.protobuf.Int64Value passengerRearDoorIsLockedTimestamp = 1806;
+
+    google.protobuf.BoolValue trunkIsLocked = 807;
+
+    google.protobuf.Int64Value trunkIsLockedTimestamp = 1807;
+
+    google.protobuf.BoolValue hazardIsOn = 808;
+
+    google.protobuf.Int64Value hazardIsOnTimestamp = 1808;
+
+    google.protobuf.BoolValue accRelayCoilIsOn = 809;
+
+    google.protobuf.Int64Value accRelayCoilIsOnTimestamp = 1809;
+
+    google.protobuf.BoolValue securityAlarm = 810;
+
+    google.protobuf.Int64Value securityAlarmTimestamp = 1810;
+}
+
+message TelemetryStateUpdate {
+
+    int64 timestamp = 100;
+
+    int64 serverTime = 101;
+
+    google.protobuf.UInt32Value deviceTime = 102;
+
+    int64 processingTime = 103;
+
+    int64 enqueueTime = 104;
+
+    google.protobuf.DoubleValue mileage = 200;
+
+    VehicleMileageSource mileageSource = 201;
+
+    google.protobuf.DoubleValue odometerCorrection = 202;
+
+    TelemetryTrackingMode telemetryTracking = 203;
+
+    google.protobuf.DoubleValue originalUnitVoltage = 204;
+
+    google.protobuf.BoolValue proofDetectedSetByServer = 205;
+
+    google.protobuf.UInt32Value accelerationsCount = 300;
+
+    google.protobuf.UInt32Value decelerationsCount = 301;
+
+    google.protobuf.UInt32Value highSpeedSeconds = 302;
+
+    google.protobuf.BoolValue locationNotTracked = 303;
+
+    google.protobuf.DoubleValue originalMileage = 500;
+
+    google.protobuf.UInt32Value engineRpm = 501;
+
+    google.protobuf.DoubleValue longitude = 502;
+
+    google.protobuf.DoubleValue latitude = 503;
+
+    google.protobuf.UInt32Value satellitesCount = 504;
+
+    google.protobuf.UInt32Value heading = 505;
+
+    google.protobuf.DoubleValue dilution = 506;
+
+    google.protobuf.UInt32Value speed = 507;
+
+    google.protobuf.DoubleValue accX = 508;
+
+    google.protobuf.DoubleValue accY = 509;
+
+    google.protobuf.DoubleValue accZ = 510;
+
+    google.protobuf.UInt32Value headingMems = 511;
+
+    google.protobuf.DoubleValue absoluteMileage = 512;
+
+    google.protobuf.DoubleValue extMileage = 513;
+
+    google.protobuf.DoubleValue computedLongitude = 514;
+
+    google.protobuf.DoubleValue computedLatitude = 515;
+
+    google.protobuf.DoubleValue mileageTripA = 516;
+
+    google.protobuf.DoubleValue mileageTripB = 517;
+
+    google.protobuf.Int32Value unitTemperature = 700;
+
+    google.protobuf.DoubleValue unitVoltage = 701;
+
+    google.protobuf.UInt32Value strongPunch = 702;
+
+    google.protobuf.UInt32Value weakPunch = 703;
+
+    google.protobuf.BoolValue towing = 704;
+
+    google.protobuf.BoolValue centralLockIsClosed = 705;
+
+    google.protobuf.BoolValue driverDoorIsOpen = 706;
+
+    google.protobuf.BoolValue passengerDoorIsOpen = 707;
+
+    google.protobuf.BoolValue driverRearDoorIsOpen = 708;
+
+    google.protobuf.BoolValue passengerRearDoorIsOpen = 709;
+
+    google.protobuf.BoolValue trunkIsOpen = 710;
+
+    google.protobuf.BoolValue hoodIsOpen = 711;
+
+    google.protobuf.UInt32Value fuelLiters = 712;
+
+    google.protobuf.UInt32Value fuelPercents = 713;
+
+    google.protobuf.DoubleValue fuelConsumption = 714;
+
+    google.protobuf.UInt32Value cruisingRange = 715;
+
+    google.protobuf.Int32Value innerTemperature = 716;
+
+    google.protobuf.Int32Value outerTemperature = 717;
+
+    google.protobuf.Int32Value engineTemperature = 718;
+
+    google.protobuf.UInt32Value oilPercents = 719;
+
+    google.protobuf.Int32Value oilTemperature = 720;
+
+    google.protobuf.Int32Value oilReplaceDistance = 721;
+
+    google.protobuf.BoolValue airConditionerIsOn = 722;
+
+    google.protobuf.BoolValue brakeFluidTrouble = 723;
+
+    google.protobuf.UInt32Value gsmSignalLevel = 724;
+
+    google.protobuf.BoolValue airbagCutOff = 725;
+
+    TireStatus tireStatus = 726;
+
+    TireStatus tireStatusFrontLeft = 727;
+
+    TireStatus tireStatusFrontRight = 728;
+
+    TireStatus tireStatusRearLeft = 729;
+
+    TireStatus tireStatusRearRight = 730;
+
+    google.protobuf.DoubleValue tirePressureFrontLeftDBar = 731;
+
+    google.protobuf.DoubleValue tirePressureFrontRightDBar = 732;
+
+    google.protobuf.DoubleValue tirePressureRearLeftDBar = 733;
+
+    google.protobuf.DoubleValue tirePressureRearRightDBar = 734;
+
+    GearboxPosition gearboxPosition = 735;
+
+    google.protobuf.BoolValue ignitionIsOn = 736;
+
+    google.protobuf.BoolValue lightsAreOn = 737;
+
+    google.protobuf.BoolValue driverSeatBeltIsFasten = 738;
+
+    google.protobuf.BoolValue passengerSeatBeltIsFasten = 739;
+
+    google.protobuf.BoolValue rearLeftSeatBeltIsFasten = 740;
+
+    google.protobuf.BoolValue rearCentralSeatBeltIsFasten = 741;
+
+    google.protobuf.BoolValue rearRightSeatBeltIsFasten = 742;
+
+    google.protobuf.BoolValue driverWindowIsOpen = 743;
+
+    google.protobuf.BoolValue passengerWindowIsOpen = 744;
+
+    google.protobuf.BoolValue driverRearWindowIsOpen = 745;
+
+    google.protobuf.BoolValue passengerRearWindowIsOpen = 746;
+
+    google.protobuf.BoolValue trunkWindowIsOpen = 747;
+
+    google.protobuf.BoolValue sunroofIsOpen = 748;
+
+    google.protobuf.BoolValue engineIsStarted = 749;
+
+    google.protobuf.BoolValue handbrakeIsSet = 750;
+
+    google.protobuf.BoolValue engineTemperatureTrouble = 751;
+
+    google.protobuf.BoolValue checkEngineTrouble = 752;
+
+    google.protobuf.BoolValue absEspIsDisabled = 753;
+
+    google.protobuf.BoolValue gearboxTemperatureTrouble = 754;
+
+    google.protobuf.BoolValue maintenanceRequired = 755;
+
+    google.protobuf.BoolValue oilPressureTrouble = 756;
+
+    google.protobuf.BoolValue batteryTrouble = 757;
+
+    google.protobuf.BoolValue airbagTrouble = 758;
+
+    google.protobuf.BoolValue tractionControlTrouble = 759;
+
+    google.protobuf.BoolValue headlightsTrouble = 760;
+
+    google.protobuf.BoolValue washerFluidAlert = 761;
+
+    google.protobuf.BoolValue evBatteryIsCharging = 762;
+
+    google.protobuf.UInt32Value evBatteryLevelPercents = 763;
+
+    google.protobuf.UInt32Value evBatteryCruisingRange = 764;
+
+    google.protobuf.BoolValue evPowerDownAlert = 765;
+
+    google.protobuf.UInt32Value evBatteryCapacity = 766;
+
+    google.protobuf.DoubleValue evBatteryVoltage = 767;
+
+    google.protobuf.Int32Value evBatteryTemperature = 768;
+
+    google.protobuf.UInt32Value evBatteryTroubles = 769;
+
+    google.protobuf.UInt32Value oilFreshnessPercents = 770;
+
+    google.protobuf.BoolValue parkingBrakeTrouble = 771;
+
+    google.protobuf.BoolValue highBeamWarning = 772;
+
+    google.protobuf.BoolValue powerSteeringTrouble = 773;
+
+    google.protobuf.BoolValue engineAutoStartWarning = 774;
+
+    google.protobuf.BoolValue electricMotorTrouble = 775;
+
+    google.protobuf.BoolValue cruiseControlWarning = 776;
+
+    google.protobuf.BoolValue idleStopWarning = 777;
+
+    google.protobuf.BoolValue tireDeflationMonitoringTrouble = 778;
+
+    google.protobuf.BoolValue tirePressureMonitoringTrouble = 779;
+
+    google.protobuf.BoolValue evBatteryDegradationTrouble = 780;
+
+    google.protobuf.BoolValue oilLevelTrouble = 781;
+
+    google.protobuf.BoolValue chargingSystemTrouble = 782;
+
+    google.protobuf.BoolValue absEspTrouble = 783;
+
+    google.protobuf.BoolValue immobilizerWarning = 784;
+
+    google.protobuf.Int32Value coolantTemperature = 785;
+
+    google.protobuf.BoolValue exhaustBrakeIsOn = 786;
+
+    google.protobuf.UInt32Value acceleratorPedalPercents = 787;
+
+    google.protobuf.UInt32Value engineWorkSeconds = 788;
+
+    google.protobuf.UInt32Value adBluePercents = 789;
+
+    google.protobuf.BoolValue dprGaugeTrouble = 790;
+
+    google.protobuf.BoolValue brakeTrouble = 791;
+
+    google.protobuf.Int32Value refrigeratorTemperature = 792;
+
+    google.protobuf.BoolValue truckBodyDoorIsOpen = 793;
+
+    google.protobuf.UInt32Value fuelLitersExternal = 794;
+
+    google.protobuf.Int32Value distanceTillMaintenance = 795;
+
+    google.protobuf.Int32Value frontPadsReplacementDistance = 796;
+
+    google.protobuf.Int32Value rearPadsReplacementDistance = 797;
+
+    google.protobuf.UInt32Value plannedMaintenanceDate = 798;
+
+    google.protobuf.UInt32Value plannedOilReplaceDate = 799;
+
+    google.protobuf.BoolValue proofDetected = 800;
+
+    TireStatus tireStatusSpareWheel = 801;
+
+    google.protobuf.DoubleValue tirePressureSpareWheelDBar = 802;
+
+    google.protobuf.BoolValue driverDoorIsLocked = 803;
+
+    google.protobuf.BoolValue passengerDoorIsLocked = 804;
+
+    google.protobuf.BoolValue driverRearDoorIsLocked = 805;
+
+    google.protobuf.BoolValue passengerRearDoorIsLocked = 806;
+
+    google.protobuf.BoolValue trunkIsLocked = 807;
+
+    google.protobuf.BoolValue hazardIsOn = 808;
+
+    google.protobuf.BoolValue accRelayCoilIsOn = 809;
+
+    google.protobuf.BoolValue securityAlarm = 810;
+}
+
+message TelemetryStateFields {
+
+    bool timestamp = 100;
+
+    bool serverTime = 101;
+
+    bool deviceTime = 102;
+
+    bool processingTime = 103;
+
+    bool enqueueTime = 104;
+
+    bool mileage = 200;
+
+    bool mileageSource = 201;
+
+    bool odometerCorrection = 202;
+
+    bool telemetryTracking = 203;
+
+    bool originalUnitVoltage = 204;
+
+    bool proofDetectedSetByServer = 205;
+
+    bool accelerationsCount = 300;
+
+    bool decelerationsCount = 301;
+
+    bool highSpeedSeconds = 302;
+
+    bool locationNotTracked = 303;
+
+    bool originalMileage = 500;
+
+    bool engineRpm = 501;
+
+    bool longitude = 502;
+
+    bool latitude = 503;
+
+    bool satellitesCount = 504;
+
+    bool heading = 505;
+
+    bool dilution = 506;
+
+    bool speed = 507;
+
+    bool accX = 508;
+
+    bool accY = 509;
+
+    bool accZ = 510;
+
+    bool headingMems = 511;
+
+    bool absoluteMileage = 512;
+
+    bool extMileage = 513;
+
+    bool computedLongitude = 514;
+
+    bool computedLatitude = 515;
+
+    bool mileageTripA = 516;
+
+    bool mileageTripB = 517;
+
+    bool unitTemperature = 700;
+
+    bool unitVoltage = 701;
+
+    bool strongPunch = 702;
+
+    bool weakPunch = 703;
+
+    bool towing = 704;
+
+    bool centralLockIsClosed = 705;
+
+    bool driverDoorIsOpen = 706;
+
+    bool passengerDoorIsOpen = 707;
+
+    bool driverRearDoorIsOpen = 708;
+
+    bool passengerRearDoorIsOpen = 709;
+
+    bool trunkIsOpen = 710;
+
+    bool hoodIsOpen = 711;
+
+    bool fuelLiters = 712;
+
+    bool fuelPercents = 713;
+
+    bool fuelConsumption = 714;
+
+    bool cruisingRange = 715;
+
+    bool innerTemperature = 716;
+
+    bool outerTemperature = 717;
+
+    bool engineTemperature = 718;
+
+    bool oilPercents = 719;
+
+    bool oilTemperature = 720;
+
+    bool oilReplaceDistance = 721;
+
+    bool airConditionerIsOn = 722;
+
+    bool brakeFluidTrouble = 723;
+
+    bool gsmSignalLevel = 724;
+
+    bool airbagCutOff = 725;
+
+    bool tireStatus = 726;
+
+    bool tireStatusFrontLeft = 727;
+
+    bool tireStatusFrontRight = 728;
+
+    bool tireStatusRearLeft = 729;
+
+    bool tireStatusRearRight = 730;
+
+    bool tirePressureFrontLeftDBar = 731;
+
+    bool tirePressureFrontRightDBar = 732;
+
+    bool tirePressureRearLeftDBar = 733;
+
+    bool tirePressureRearRightDBar = 734;
+
+    bool gearboxPosition = 735;
+
+    bool ignitionIsOn = 736;
+
+    bool lightsAreOn = 737;
+
+    bool driverSeatBeltIsFasten = 738;
+
+    bool passengerSeatBeltIsFasten = 739;
+
+    bool rearLeftSeatBeltIsFasten = 740;
+
+    bool rearCentralSeatBeltIsFasten = 741;
+
+    bool rearRightSeatBeltIsFasten = 742;
+
+    bool driverWindowIsOpen = 743;
+
+    bool passengerWindowIsOpen = 744;
+
+    bool driverRearWindowIsOpen = 745;
+
+    bool passengerRearWindowIsOpen = 746;
+
+    bool trunkWindowIsOpen = 747;
+
+    bool sunroofIsOpen = 748;
+
+    bool engineIsStarted = 749;
+
+    bool handbrakeIsSet = 750;
+
+    bool engineTemperatureTrouble = 751;
+
+    bool checkEngineTrouble = 752;
+
+    bool absEspIsDisabled = 753;
+
+    bool gearboxTemperatureTrouble = 754;
+
+    bool maintenanceRequired = 755;
+
+    bool oilPressureTrouble = 756;
+
+    bool batteryTrouble = 757;
+
+    bool airbagTrouble = 758;
+
+    bool tractionControlTrouble = 759;
+
+    bool headlightsTrouble = 760;
+
+    bool washerFluidAlert = 761;
+
+    bool evBatteryIsCharging = 762;
+
+    bool evBatteryLevelPercents = 763;
+
+    bool evBatteryCruisingRange = 764;
+
+    bool evPowerDownAlert = 765;
+
+    bool evBatteryCapacity = 766;
+
+    bool evBatteryVoltage = 767;
+
+    bool evBatteryTemperature = 768;
+
+    bool evBatteryTroubles = 769;
+
+    bool oilFreshnessPercents = 770;
+
+    bool parkingBrakeTrouble = 771;
+
+    bool highBeamWarning = 772;
+
+    bool powerSteeringTrouble = 773;
+
+    bool engineAutoStartWarning = 774;
+
+    bool electricMotorTrouble = 775;
+
+    bool cruiseControlWarning = 776;
+
+    bool idleStopWarning = 777;
+
+    bool tireDeflationMonitoringTrouble = 778;
+
+    bool tirePressureMonitoringTrouble = 779;
+
+    bool evBatteryDegradationTrouble = 780;
+
+    bool oilLevelTrouble = 781;
+
+    bool chargingSystemTrouble = 782;
+
+    bool absEspTrouble = 783;
+
+    bool immobilizerWarning = 784;
+
+    bool coolantTemperature = 785;
+
+    bool exhaustBrakeIsOn = 786;
+
+    bool acceleratorPedalPercents = 787;
+
+    bool engineWorkSeconds = 788;
+
+    bool adBluePercents = 789;
+
+    bool dprGaugeTrouble = 790;
+
+    bool brakeTrouble = 791;
+
+    bool refrigeratorTemperature = 792;
+
+    bool truckBodyDoorIsOpen = 793;
+
+    bool fuelLitersExternal = 794;
+
+    bool distanceTillMaintenance = 795;
+
+    bool frontPadsReplacementDistance = 796;
+
+    bool rearPadsReplacementDistance = 797;
+
+    bool plannedMaintenanceDate = 798;
+
+    bool plannedOilReplaceDate = 799;
+
+    bool proofDetected = 800;
+
+    bool tireStatusSpareWheel = 801;
+
+    bool tirePressureSpareWheelDBar = 802;
+
+    bool driverDoorIsLocked = 803;
+
+    bool passengerDoorIsLocked = 804;
+
+    bool driverRearDoorIsLocked = 805;
+
+    bool passengerRearDoorIsLocked = 806;
+
+    bool trunkIsLocked = 807;
+
+    bool hazardIsOn = 808;
+
+    bool accRelayCoilIsOn = 809;
+
+    bool securityAlarm = 810;
+}

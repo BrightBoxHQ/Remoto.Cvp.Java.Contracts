@@ -1,0 +1,62 @@
+syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+package remoto.cvp.UAPI;
+
+enum TirePressureStatus {
+  TireUnavailable = 0;
+  TireNormal = 1;
+  TireLow = 2;
+  TireCritical = 3;
+  TireFailure = 4;
+}
+
+message TirePressureStatusWrapper {
+  TirePressureStatus value = 1;
+}
+
+enum GearboxPosition
+{
+  GearboxUnavailable = 0;
+  GearboxParking = 1;
+  GearboxReverse = 2;
+  GearboxNeutral = 3;
+  GearboxDrive = 4;
+  GearboxManualDrive = 5;
+}
+
+message GearboxPositionWrapper {
+  GearboxPosition value = 1;
+}
+
+enum TelemetryTrackingMode
+{
+    Nothing = 0;
+    ProofOfOwnership = 1;
+    HideLocation = 2;
+    Everything = 3;
+}
+
+message TelemetryTrackingModeWrapper {
+  TelemetryTrackingMode value = 1;
+}
+
+enum SensorBoolValue {
+  False = 0;
+  True = 1;
+  Unavailable = 2;
+}
+
+message SensorBoolValueWrapper {
+  SensorBoolValue value = 1;
+}
+
+enum ConnectedStatus {
+	ConnectedStatusUnknown = 0;
+	Offline = 1;
+	Online = 2;
+	Sleeping = 3;
+}
+
+message ConnectedStatusWrapper {
+	ConnectedStatus status = 1;
+}

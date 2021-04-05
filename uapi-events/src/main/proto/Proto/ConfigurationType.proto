@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+package remoto.cvp.UAPI;
+
+enum ConfigurationType {
+	Unknown = 0;
+	Configurator = 1;
+	MobileApp = 2;
+	Tooling = 3;
+	UAPI = 4;
+}

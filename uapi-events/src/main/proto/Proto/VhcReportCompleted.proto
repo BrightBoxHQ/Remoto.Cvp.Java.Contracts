@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+import "google/protobuf/wrappers.proto";
+import public "Proto/GuidValue.proto";
+package remoto.cvp.UAPI;
+
+message VhcRedReportCompleted {
+	remoto.cvp.UAPI.GuidValue DeviceNumber = 1;
+	google.protobuf.StringValue ReportId = 2;
+	google.protobuf.StringValue DiagnosticInitiator = 3;
+}
+
+message VhcGreenReportCompleted {
+	remoto.cvp.UAPI.GuidValue DeviceNumber = 1;
+	google.protobuf.StringValue ReportId = 2;
+	google.protobuf.StringValue DiagnosticInitiator = 3;
+}

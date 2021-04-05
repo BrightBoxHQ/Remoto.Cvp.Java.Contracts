@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+package remoto.cvp.UAPI;
+
+message GuidValue {
+	bytes bytes = 1;
+}

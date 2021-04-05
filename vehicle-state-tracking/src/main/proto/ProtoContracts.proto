@@ -1,0 +1,149 @@
+﻿syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+package remoto.cvp.services.vehiclestatetracking;
+option csharp_namespace = "Remoto.Cvp.Services.VehicleStateTracking.Contracts";
+
+import "Wrappers.proto";
+import "ProtoContracts.Generated.proto";
+
+message VehicleState {
+
+    GuidValue vehicleId = 1;
+
+    GuidValue deviceNumber = 2;
+
+    GuidValue subscriptionId = 3;
+
+    DeviceOnlineState onlineState = 4;
+
+    TelemetryState telemetry = 5;
+}
+
+message VehicleStateEvent {
+
+    DeviceOnlineState onlineState = 1;
+
+    TelemetryState telemetry = 2;
+
+    repeated TelemetryStateUpdate telemetryUpdates = 3;
+}
+
+message VehicleStateFields {
+
+    bool vehicleId = 1;
+
+    bool deviceNumber = 2;
+
+    bool subscriptionId = 3;
+
+    DeviceOnlineStateFields onlineState = 4;
+
+    TelemetryStateFields telemetry = 5;
+}
+
+message GetLastVehicleStateRequest {
+
+    GuidValue vehicleId = 1;
+
+    VehicleStateFields fields = 2;
+
+    bool clearTimestamps = 3;
+}
+
+message GetLastVehicleStatesRequest {
+
+    repeated GuidValue vehicleIds = 1;
+
+    VehicleStateFields fields = 2;
+
+    bool clearTimestamps = 3;
+}
+
+message GetVehicleStateRequest {
+
+    GuidValue vehicleId = 1;
+
+    int64 timestamp = 2;
+
+    VehicleStateFields fields = 3;
+
+    bool clearTimestamps = 4;
+}
+
+message ListVehicleStatesRequest {
+
+    GuidValue vehicleId = 1;
+
+    google.protobuf.UInt32Value take = 2;
+
+    VehicleStateFields fields = 3;
+
+    google.protobuf.Int64Value minTimestamp = 4;
+
+    google.protobuf.Int64Value maxTimestamp = 5;
+
+    google.protobuf.Int64Value minRevision = 6;
+
+    google.protobuf.Int64Value maxRevision = 7;
+
+    bool clearTimestamps = 8;
+}
+
+message MileageConfiguration {
+
+    bool isAbsoluteMileageAvailable = 1;
+
+    double odometerCorrection = 2;
+}
+
+message GetMileageConfigurationRequest {
+
+    GuidValue vehicleId = 1;
+}
+
+message SetMileageConfigurationRequest {
+
+    GuidValue vehicleId = 1;
+
+    google.protobuf.BoolValue isAbsoluteMileageAvailable = 2;
+
+    google.protobuf.DoubleValue odometerCorrection = 3;
+}
+
+message ClearVehicleStatesRequest {
+
+    repeated GuidValue vehicleIds = 1;
+
+    TelemetryStateFields selectedIndicators = 2;
+
+    bool makeOffline = 3;
+
+    bool clearTimestamps = 4;
+}
+
+message ClearVehicleStateResponse {
+
+    VehicleState newState = 1;
+
+    VehicleState originalState = 2;
+
+    VehicleStateFields affectedFields = 3;
+}
+
+service VehicleStateService {
+
+    rpc GetLastVehicleState (GetLastVehicleStateRequest) returns (VehicleState) {}
+
+    rpc GetLastVehicleStates (GetLastVehicleStatesRequest) returns (stream VehicleState) {}
+
+    rpc ListVehicleStates (ListVehicleStatesRequest) returns (stream VehicleState) {}
+
+    rpc ClearVehicleStates(ClearVehicleStatesRequest) returns (stream ClearVehicleStateResponse) {}
+}
+
+service MileageConfigurationService {
+
+    rpc GetMileageConfiguration(GetMileageConfigurationRequest) returns (MileageConfiguration) {}
+
+    rpc SetMileageConfiguration(SetMileageConfigurationRequest) returns (MileageConfiguration) {}
+}

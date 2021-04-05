@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+package remoto.cvp.UAPI;
+
+enum VehicleMileageSource {
+	Original = 0;
+	External = 1;
+	Absolute = 2;
+}
+
+message VehicleMileageSourceValueWrapper {
+	VehicleMileageSource value = 1;
+}

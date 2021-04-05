@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+package remoto.cvp.services.vehiclestatetracking;
+option csharp_namespace = "Remoto.Cvp.Services.VehicleStateTracking.Contracts";
+
+message GuidValue {
+
+  bytes bytes = 1;
+}

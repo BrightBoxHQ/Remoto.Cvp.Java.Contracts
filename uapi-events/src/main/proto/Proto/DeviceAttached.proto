@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+import "google/protobuf/wrappers.proto";
+import public "Proto/GuidValue.proto";
+package remoto.cvp.UAPI;
+
+message DeviceAttached {
+	remoto.cvp.UAPI.GuidValue DeviceNumber = 1;
+	google.protobuf.StringValue DeviceHash = 2;
+	google.protobuf.StringValue ICCID = 3;
+	google.protobuf.StringValue VIN = 4;
+	google.protobuf.StringValue OldVIN = 5;
+	google.protobuf.StringValue ProductId = 6;
+	google.protobuf.StringValue HardwareId = 7;
+	google.protobuf.StringValue FirmwareId = 8;
+}

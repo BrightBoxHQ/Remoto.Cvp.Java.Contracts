@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+option csharp_namespace = "Remoto.Cvp.UAPI.Events";
+import "google/protobuf/wrappers.proto";
+import public "Proto/GuidValue.proto";
+package remoto.cvp.UAPI;
+
+message DeviceFirmwareUpdateCompleted {
+	remoto.cvp.UAPI.GuidValue DeviceNumber = 1;
+	google.protobuf.StringValue VIN = 2;
+	string HardwareId = 3;
+	string FirmwareVersion = 4;
+	remoto.cvp.UAPI.GuidValue SubscriptionId = 5;
+}
