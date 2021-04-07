@@ -1,0 +1,388 @@
+syntax = "proto2";
+
+package remoto.cvp.device.messages;
+
+enum ProtoVersion {
+  CORE_PROTO_VERSION = 0;
+}
+
+enum ContentType {
+  CORE_CONTENT = 0;
+  PLA_CONTENT = 1;
+}
+
+enum EncodingType {
+  RAW_ENCODING = 0;
+  HEATSHRINK_LZSS_ENCODING = 1;
+}
+
+enum CoreMessageType {
+  UNKNOWN_MESSAGE = 0;
+  PING_REQUEST_MESSAGE = 1;
+  PING_RESPONSE_MESSAGE = 2;
+  TELEMETRY_MESSAGE = 3;
+  LONG_RUNNING_ACTION_MESSAGE = 4;
+  HEALTH_MESSAGE = 5;
+  DIAGNOSTIC_MESSAGE = 6;
+  EMERGENCY_MESSAGE = 7;
+  SLEEP_MESSAGE = 8;
+  WAKE_UP_MESSAGE = 9;
+}
+
+enum GearboxPosition {
+  GEARBOX_UNAVAILABLE = 0;
+  GEARBOX_PARKING = 1;
+  GEARBOX_REVERSE = 2;
+  GEARBOX_NEUTRAL = 3;
+  GEARBOX_DRIVE = 4;
+  GEARBOX_MANUAL_DRIVE = 5;
+}
+
+enum TireStatus {
+  TIRE_UNAVAILABLE = 0;
+  TIRE_NORMAL = 1;
+  TIRE_LOW = 2;
+  TIRE_CRITICAL = 3;
+  TIRE_FAILURE = 4;
+}
+
+enum LongRunningActionStatus {
+  PENDING = 0;
+  EXECUTING = 1;
+  SUCCEEDED = 2;
+  FAILED = 3;
+}
+
+enum Maturity {
+  MATURITY_UNKNOWN = 0;
+  MATURITY_ACTIVE = 1;
+  MATURITY_PENDING = 2;
+  MATURITY_STORED = 3;
+  MATURITY_PERMANENT = 4;
+}
+
+enum DiagnosticRealm {
+  DIAGREALM_GENERIC = 0;
+  DIAGREALM_UDS = 1;
+  DIAGREALM_J1939 = 2;
+  DIAGREALM_CLUSTER = 3;
+  DIAGREALM_CUSTOM = 4;
+}
+
+enum DiagnosticResult {
+  DIAGNOSTICRESULT_NONE = 0;
+  DIAGNOSTICRESULT_DONE = 1;
+  DIAGNOSTICRESULT_ERROR = 2;
+}
+
+enum SleepCause {
+  SLEEP_UNSPECIFIED = 0;
+  SLEEP_NORMAL = 1;
+  SLEEP_FORCED = 2;
+  SLEEP_VOLTAGE_CONTROLLED = 3;
+}
+
+enum WakeUpCause {
+  WAKEUP_UNSPECIFIED = 0;
+  WAKEUP_TIMEOUT = 1;
+  WAKEUP_VEHICLE_EVENT = 2;
+  WAKEUP_CAN_ACTIVITY = 3;
+  WAKEUP_LIN_ACTIVITY = 4;
+  WAKEUP_VOLTAGE_CONTROLLED = 5;
+  WAKEUP_VOLTAGE_DROP = 6;
+  WAKEUP_VOLTAGE_THRESHOLD = 7;
+}
+
+enum BooleanSensorValue {
+  FALSE = 0;
+  TRUE = 1;
+  UNAVAILABLE = 2;
+}
+
+message MessageBase {
+  required ProtoVersion version = 1;
+  required uint32 timestamp = 2;
+  required bytes content = 3;
+  optional ContentType contentType = 4;
+  optional EncodingType contentEncoding = 5;
+}
+
+message LzssContent {
+  required uint32 windowSize = 1;
+  required uint32 lookaheadSize = 2;
+  required bytes innerContent = 3;
+}
+
+message CoreContent {
+  required CoreMessageType messageType = 1;
+  required bytes message = 2;
+  optional bytes plaExtension = 3;
+}
+
+message PingRequestMessage {
+  required uint32 pingNumber = 1;
+  optional bool responseRequired = 2;
+}
+
+message PingResponseMessage {
+  required uint32 pingNumber = 1;
+}
+
+message TelemetryBundlePoint {
+  required sint32 timestampDiff = 1;
+  optional sint32 mileageDiff = 2 [default = 2147483647];
+  optional sint32 engineRpmDiff = 3 [default = 2147483647];
+  optional sint32 longitudeDiff = 4 [default = 2147483647];
+  optional sint32 latitudeDiff = 5 [default = 2147483647];
+  optional sint32 satellitesCountDiff = 6 [default = 2147483647];
+  optional sint32 headingDiff = 7 [default = 2147483647];
+  optional sint32 dilutionDiff = 8 [default = 2147483647];
+  optional sint32 speedDiff = 9 [default = 2147483647];
+  optional sint32 accXDiff = 10 [default = 2147483647];
+  optional sint32 accYDiff = 11 [default = 2147483647];
+  optional sint32 accZDiff = 12 [default = 2147483647];
+  optional sint32 headingMemsDiff = 13 [default = 2147483647];
+  optional sint32 absoluteMileageDiff = 14 [default = 2147483647];
+  optional sint32 extMileageDiff = 15 [default = 2147483647];
+  optional sint32 computedLongitudeDiff = 16 [default = 2147483647];
+  optional sint32 computedLatitudeDiff = 17 [default = 2147483647];
+  optional sint32 mileageTripADiff = 18 [default = 2147483647];
+  optional sint32 mileageTripBDiff = 19 [default = 2147483647];
+}
+
+message TelemetryBundle {
+  repeated TelemetryBundlePoint points = 1;
+  required uint32 timestampStart = 2;
+  optional uint32 mileageStart = 3 [default = 4294967295];
+  optional uint32 engineRpmStart = 4 [default = 4294967295];
+  optional sint32 longitudeStart = 5 [default = 2147483647];
+  optional sint32 latitudeStart = 6 [default = 2147483647];
+  optional uint32 satellitesCountStart = 7 [default = 4294967295];
+  optional uint32 headingStart = 8 [default = 4294967295];
+  optional uint32 dilutionStart = 9 [default = 4294967295];
+  optional uint32 speedStart = 10 [default = 4294967295];
+  optional sint32 accXStart = 11 [default = 2147483647];
+  optional sint32 accYStart = 12 [default = 2147483647];
+  optional sint32 accZStart = 13 [default = 2147483647];
+  optional uint32 headingMemsStart = 14 [default = 4294967295];
+  optional uint32 absoluteMileageStart = 15 [default = 4294967295];
+  optional uint32 extMileageStart = 16 [default = 4294967295];
+  optional sint32 computedLongitudeStart = 17 [default = 2147483647];
+  optional sint32 computedLatitudeStart = 18 [default = 2147483647];
+  optional uint32 mileageTripAStart = 19 [default = 4294967295];
+  optional uint32 mileageTripBStart = 20 [default = 4294967295];
+}
+
+message TelemetrySensors {
+  required uint32 timestamp = 1;
+  optional sint32 unitTemperature = 2 [default = 2147483647];
+  optional uint32 unitVoltage = 3 [default = 4294967295];
+  optional uint32 strongPunch = 4 [default = 4294967295];
+  optional uint32 weakPunch = 5 [default = 4294967295];
+  optional BooleanSensorValue towing = 6 [default = UNAVAILABLE];
+  optional BooleanSensorValue centralLockIsClosed = 7 [default = UNAVAILABLE];
+  optional BooleanSensorValue driverDoorIsOpen = 8 [default = UNAVAILABLE];
+  optional BooleanSensorValue passengerDoorIsOpen = 9 [default = UNAVAILABLE];
+  optional BooleanSensorValue driverRearDoorIsOpen = 10 [default = UNAVAILABLE];
+  optional BooleanSensorValue passengerRearDoorIsOpen = 11 [default = UNAVAILABLE];
+  optional BooleanSensorValue trunkIsOpen = 12 [default = UNAVAILABLE];
+  optional BooleanSensorValue hoodIsOpen = 13 [default = UNAVAILABLE];
+  optional uint32 fuelLiters = 14 [default = 4294967295];
+  optional uint32 fuelPercents = 15 [default = 4294967295];
+  optional uint32 fuelConsumption = 16 [default = 4294967295];
+  optional uint32 cruisingRange = 17 [default = 4294967295];
+  optional sint32 innerTemperature = 18 [default = 2147483647];
+  optional sint32 outerTemperature = 19 [default = 2147483647];
+  optional sint32 engineTemperature = 20 [default = 2147483647];
+  optional uint32 oilPercents = 21 [default = 4294967295];
+  optional sint32 oilTemperature = 22 [default = 2147483647];
+  optional int32 oilReplaceDistance = 23 [default = 2147483647];
+  optional BooleanSensorValue airConditionerIsOn = 24 [default = UNAVAILABLE];
+  optional BooleanSensorValue brakeFluidTrouble = 25 [default = UNAVAILABLE];
+  optional uint32 gsmSignalLevel = 26 [default = 4294967295];
+  optional BooleanSensorValue airbagCutOff = 27 [default = UNAVAILABLE];
+  optional TireStatus tireStatus = 28 [default = TIRE_UNAVAILABLE];
+  optional TireStatus tireStatusFrontLeft = 29 [default = TIRE_UNAVAILABLE];
+  optional TireStatus tireStatusFrontRight = 30 [default = TIRE_UNAVAILABLE];
+  optional TireStatus tireStatusRearLeft = 31 [default = TIRE_UNAVAILABLE];
+  optional TireStatus tireStatusRearRight = 32 [default = TIRE_UNAVAILABLE];
+  optional uint32 tirePressureFrontLeftDBar = 33 [default = 4294967295];
+  optional uint32 tirePressureFrontRightDBar = 34 [default = 4294967295];
+  optional uint32 tirePressureRearLeftDBar = 35 [default = 4294967295];
+  optional uint32 tirePressureRearRightDBar = 36 [default = 4294967295];
+  optional GearboxPosition gearboxPosition = 37 [default = GEARBOX_UNAVAILABLE];
+  optional BooleanSensorValue ignitionIsOn = 38 [default = UNAVAILABLE];
+  optional BooleanSensorValue lightsAreOn = 39 [default = UNAVAILABLE];
+  optional BooleanSensorValue driverSeatBeltIsFasten = 40 [default = UNAVAILABLE];
+  optional BooleanSensorValue passengerSeatBeltIsFasten = 41 [default = UNAVAILABLE];
+  optional BooleanSensorValue rearLeftSeatBeltIsFasten = 42 [default = UNAVAILABLE];
+  optional BooleanSensorValue rearCentralSeatBeltIsFasten = 43 [default = UNAVAILABLE];
+  optional BooleanSensorValue rearRightSeatBeltIsFasten = 44 [default = UNAVAILABLE];
+  optional BooleanSensorValue driverWindowIsOpen = 45 [default = UNAVAILABLE];
+  optional BooleanSensorValue passengerWindowIsOpen = 46 [default = UNAVAILABLE];
+  optional BooleanSensorValue driverRearWindowIsOpen = 47 [default = UNAVAILABLE];
+  optional BooleanSensorValue passengerRearWindowIsOpen = 48 [default = UNAVAILABLE];
+  optional BooleanSensorValue trunkWindowIsOpen = 49 [default = UNAVAILABLE];
+  optional BooleanSensorValue sunroofIsOpen = 50 [default = UNAVAILABLE];
+  optional BooleanSensorValue proofDetected = 51 [default = UNAVAILABLE];
+  optional BooleanSensorValue engineIsStarted = 52 [default = UNAVAILABLE];
+  optional BooleanSensorValue handbrakeIsSet = 53 [default = UNAVAILABLE];
+  optional BooleanSensorValue engineTemperatureTrouble = 54 [default = UNAVAILABLE];
+  optional BooleanSensorValue checkEngineTrouble = 56 [default = UNAVAILABLE];
+  optional BooleanSensorValue absEspIsDisabled = 57 [default = UNAVAILABLE];
+  optional BooleanSensorValue gearboxTemperatureTrouble = 58 [default = UNAVAILABLE];
+  optional BooleanSensorValue maintenanceRequired = 59 [default = UNAVAILABLE];
+  optional BooleanSensorValue oilPressureTrouble = 60 [default = UNAVAILABLE];
+  optional BooleanSensorValue batteryTrouble = 61 [default = UNAVAILABLE];
+  optional BooleanSensorValue airbagTrouble = 62 [default = UNAVAILABLE];
+  optional BooleanSensorValue tractionControlTrouble = 63 [default = UNAVAILABLE];
+  optional BooleanSensorValue headlightsTrouble = 64 [default = UNAVAILABLE];
+  optional BooleanSensorValue washerFluidAlert = 65 [default = UNAVAILABLE];
+  optional BooleanSensorValue evBatteryIsCharging = 66 [default = UNAVAILABLE];
+  optional uint32 evBatteryLevelPercents = 67 [default = 4294967295];
+  optional uint32 evBatteryCruisingRange = 68 [default = 4294967295];
+  optional BooleanSensorValue evPowerDownAlert = 69 [default = UNAVAILABLE];
+  optional uint32 evBatteryCapacity = 70 [default = 4294967295];
+  optional uint32 evBatteryVoltage = 71 [default = 4294967295];
+  optional int32 evBatteryTemperature = 72 [default = 2147483647];
+  optional uint32 evBatteryTroubles = 73 [default = 4294967295];
+  optional uint32 oilFreshnessPercents = 74 [default = 4294967295];
+  optional BooleanSensorValue parkingBrakeTrouble = 75 [default = UNAVAILABLE];
+  optional BooleanSensorValue highBeamWarning = 76 [default = UNAVAILABLE];
+  optional BooleanSensorValue powerSteeringTrouble = 77 [default = UNAVAILABLE];
+  optional BooleanSensorValue engineAutoStartWarning = 78 [default = UNAVAILABLE];
+  optional BooleanSensorValue electricMotorThrouble = 79 [default = UNAVAILABLE];
+  optional BooleanSensorValue cruiseControlWarning = 80 [default = UNAVAILABLE];
+  optional BooleanSensorValue idleStopWarning = 81 [default = UNAVAILABLE];
+  optional BooleanSensorValue tireDeflationMonitoringTrouble = 82 [default = UNAVAILABLE];
+  optional BooleanSensorValue tirePressureMonitoringTrouble = 83 [default = UNAVAILABLE];
+  optional BooleanSensorValue evBatteryDegradationTrouble = 84 [default = UNAVAILABLE];
+  optional BooleanSensorValue oilLevelTrouble = 85 [default = UNAVAILABLE];
+  optional BooleanSensorValue chargingSystemTrouble = 86 [default = UNAVAILABLE];
+  optional BooleanSensorValue absEspTrouble = 87 [default = UNAVAILABLE];
+  optional BooleanSensorValue immobilizerWarning = 88 [default = UNAVAILABLE];
+  optional sint32 coolantTemperature = 89 [default = 2147483647];
+  optional BooleanSensorValue exhaustBrakeIsOn = 90 [default = UNAVAILABLE];
+  optional uint32 acceleratorPedalPercents = 91 [default = 4294967295];
+  optional uint32 engineWorkSeconds = 92 [default = 4294967295];
+  optional uint32 adBluePercents = 93 [default = 4294967295];
+  optional BooleanSensorValue dprGaugeTrouble = 94 [default = UNAVAILABLE];
+  optional BooleanSensorValue brakeTrouble = 95 [default = UNAVAILABLE];
+  optional sint32 refrigeratorTemperature = 96 [default = 2147483647];
+  optional BooleanSensorValue truckBodyDoorIsOpen = 97 [default = UNAVAILABLE];
+  optional uint32 fuelLitersExternal = 98 [default = 4294967295];
+  optional int32 distanceTillMaintenance = 99 [default = 2147483647];
+  optional int32 frontPadsReplacementDistance = 100 [default = 2147483647];
+  optional int32 rearPadsReplacementDistance = 101 [default = 2147483647];
+  optional uint32 plannedMaintenanceDate = 102 [default = 4294967295];
+  optional uint32 plannedOilReplaceDate = 103 [default = 4294967295];
+}
+
+message TelemetryMessage {
+  optional TelemetrySensors sensors = 1;
+  optional TelemetryBundle bundle = 2;
+  optional uint32 accelerationsCount = 3 [default = 4294967295];
+  optional uint32 decelerationsCount = 4 [default = 4294967295];
+  optional uint32 highSpeedSeconds = 5 [default = 4294967295];
+  optional bool locationNotTracked = 6 [default = false];
+}
+
+message LongRunningActionMessage {
+  required int32 actionId = 1;
+  required uint32 timestamp = 2;
+  required LongRunningActionStatus status = 3;
+  optional uint32 progress = 4;
+  optional string errorCode = 5;
+  optional string errorDescription = 6;
+}
+
+message DiagnosticMessage {
+  required int32 sessionId = 1;
+  required int32 number = 2;
+  optional int32 requestId = 3;
+  optional DiagnosticResult result = 4;
+  repeated ObdData obdData = 5;
+  repeated DtcInfo dtcs = 6;
+  optional DiagnosticIndicators indicators = 7;
+  optional string errorDescription = 8;
+}
+
+message DtcInfo {
+  optional string dtc = 1;
+  optional Maturity maturity = 2;
+  optional string ecu = 3;
+  optional uint32 statusByte = 4;
+  optional uint32 ecuId = 5;
+}
+
+message ObdData {
+  required uint32 mode = 1;
+  required uint32 pidNum = 2;
+  required bytes payload = 3;
+  optional uint32 ecuId = 4;
+  optional string ecu = 5;
+  optional DiagnosticRealm realm = 6 [default = DIAGREALM_GENERIC];
+}
+
+message DiagnosticIndicators {
+  optional uint32 fuelLiters = 1;
+  optional uint32 fuelPercents = 2;
+  optional uint32 engineOffVoltage = 3;
+  optional uint32 engineOnVoltage = 4;
+  optional uint32 engineRpm = 5;
+  optional uint32 oilLevelPercents = 6;
+  optional BooleanSensorValue brakeFluidTrouble = 7 [default = UNAVAILABLE];
+  optional BooleanSensorValue tiresTrouble = 8 [default = UNAVAILABLE];
+  optional BooleanSensorValue isEngineOn = 9 [default = UNAVAILABLE];
+}
+
+message HealthRebootInfo {
+  optional string TaskName = 1;
+  required uint32 StatusRegister = 2;
+  optional string Function = 3;
+  optional string MmemoryUsage = 4;
+}
+
+message HealthStackInfo {
+  required string TaskName = 1;
+  required uint32 Watermark = 2;
+  required uint32 Total = 3;
+}
+
+message HealthOtherInfo {
+  required string TaskName = 1;
+  required string Message = 2;
+}
+
+message HealthMessage {
+  required string Version = 1;
+  required uint32 WatchingPeriod = 2;
+  required uint32 RebootCount = 3;
+  required uint32 ReconnectCount = 4;
+  optional HealthRebootInfo LastReboot = 5;
+  repeated HealthStackInfo Stack = 6;
+  repeated HealthOtherInfo OtherMessage = 7;
+}
+
+message EmergencyMessage {
+  required uint32 timestamp = 1;
+  optional uint32 id = 2;
+  optional sint32 accX = 3;
+  optional sint32 accY = 4;
+  optional sint32 accZ = 5;
+  optional sint32 latitude = 6;
+  optional sint32 longitude = 7;
+  optional uint32 speed = 8;
+}
+
+message SleepMessage {
+  required uint32 timestamp = 1;
+  required uint32 expectedTimeSeconds = 2;
+  optional SleepCause sleepCause = 3 [default = SLEEP_UNSPECIFIED];
+}
+
+message WakeUpMessage {
+  required uint32 timestamp = 1;
+  optional WakeUpCause wakeUpCause = 2 [default = WAKEUP_UNSPECIFIED];
+}
+

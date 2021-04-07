@@ -1,0 +1,291 @@
+{
+  "protocol" : "CoreMethods",
+  "namespace" : "remoto.cvp.device.methods",
+  "types" : [ {
+    "type" : "record",
+    "name" : "CommandResult",
+    "fields" : [ {
+      "name" : "actionId",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "error",
+    "name" : "MethodInvocationError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "error",
+    "name" : "BadRequestError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "invalidFields",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    } ]
+  }, {
+    "type" : "error",
+    "name" : "InternalError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "internalErrorReason",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "InvalidOperationReason",
+    "symbols" : [ "IRREGULAR", "DEVICE_IS_BUSY" ]
+  }, {
+    "type" : "error",
+    "name" : "InvalidOperationError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "invalidOperationReason",
+      "type" : "InvalidOperationReason"
+    } ]
+  }, {
+    "type" : "error",
+    "name" : "NotImplementedError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "StartEngineErrorReason",
+    "symbols" : [ "IRREGULAR", "ALREADY_STARTED", "DOORS_ARE_OPEN", "RPM_FAILED", "NEUTRAL_NOT_SET", "MANUALLY_STARTED", "KEY_IN_CAR", "ENGINE_IS_BLOCKED" ]
+  }, {
+    "type" : "error",
+    "name" : "StartEngineError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "invalidOperationReason",
+      "type" : "InvalidOperationReason"
+    }, {
+      "name" : "startEngineErrorReason",
+      "type" : "StartEngineErrorReason"
+    } ]
+  }, {
+    "type" : "error",
+    "name" : "UnknownMethodError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "StartVehicleDiagnosticsErrorReason",
+    "symbols" : [ "IRREGULAR", "ANOTHER_SESSION_IN_PROGRESS" ]
+  }, {
+    "type" : "error",
+    "name" : "StartVehicleDiagnosticsError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "invalidOperationReason",
+      "type" : "InvalidOperationReason"
+    }, {
+      "name" : "startVehicleDiagnosticsErrorReason",
+      "type" : "StartVehicleDiagnosticsErrorReason"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ObdDataRequest",
+    "fields" : [ {
+      "name" : "mode",
+      "type" : "int"
+    }, {
+      "name" : "offset",
+      "type" : "int"
+    }, {
+      "name" : "mask",
+      "type" : "long"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "VehicleDiagnosticsRequest",
+    "fields" : [ {
+      "name" : "requestId",
+      "type" : "int"
+    }, {
+      "name" : "safeProtocolsOnly",
+      "type" : "boolean"
+    }, {
+      "name" : "obdDataRequests",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "ObdDataRequest"
+      } ]
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "InvalidVehicleStateReason",
+    "symbols" : [ "IRREGULAR", "ALREADY_STARTED", "DOORS_ARE_OPEN", "RPM_FAILED", "NEUTRAL_NOT_SET", "MANUALLY_STARTED", "KEY_IN_CAR", "ENGINE_IS_BLOCKED", "GEARBOX_IS_NOT_IN_PARKING", "LIGHTS_IS_ON", "BATTERY_IS_LOW", "FUEL_IS_LOW", "IGNITION_IS_ON", "IGNITION_IS_OFF" ]
+  }, {
+    "type" : "error",
+    "name" : "InvalidVehicleStateError",
+    "fields" : [ {
+      "name" : "method",
+      "type" : "string"
+    }, {
+      "name" : "invalidOperationReason",
+      "type" : "InvalidOperationReason"
+    }, {
+      "name" : "invalidVehicleStateReason",
+      "type" : "InvalidVehicleStateReason"
+    } ]
+  } ],
+  "messages" : {
+    "startEngine" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "StartEngineError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "stopEngine" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "blockEngine" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "unblockEngine" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "blink" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "lock" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "unlock" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "lockTrunk" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "unlockTrunk" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "lockHood" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "unlockHood" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "turnLightsOn" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "turnLightsOff" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "reboot" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "setOdometer" : {
+      "request" : [ {
+        "name" : "mileage",
+        "type" : "int"
+      } ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "immoLearn" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "resetAccelerometerCalibration" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "devTest" : {
+      "request" : [ {
+        "name" : "testCode",
+        "type" : "int"
+      } ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "switchOperatingModeToNormal" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "switchOperatingModeToStorage" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    },
+    "immoExternalLearnStart" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "immoExternalLearnStop" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "vehicleArm" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "vehicleDisarm" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InvalidVehicleStateError", "InternalError" ]
+    },
+    "startDiagnostics" : {
+      "request" : [ {
+        "name" : "request",
+        "type" : "VehicleDiagnosticsRequest"
+      } ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "StartVehicleDiagnosticsError", "InternalError" ]
+    },
+    "eraseDtc" : {
+      "request" : [ ],
+      "response" : "CommandResult",
+      "errors" : [ "BadRequestError", "UnknownMethodError", "NotImplementedError", "InvalidOperationError", "InternalError" ]
+    }
+  }
+}

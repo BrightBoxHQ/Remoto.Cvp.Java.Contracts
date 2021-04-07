@@ -5,3 +5,8 @@
 build
 
 .idea
+target/
+history/
+out/
+generated/
+gen/

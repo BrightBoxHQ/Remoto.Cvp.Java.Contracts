@@ -1,0 +1,472 @@
+{
+  "protocol" : "CoreTwin",
+  "namespace" : "remoto.cvp.device.twin",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "GearboxType",
+    "symbols" : [ "AUTOMATIC", "MANUAL" ]
+  }, {
+    "type" : "enum",
+    "name" : "RpmSensorType",
+    "symbols" : [ "NONE", "TAXO", "CAN" ]
+  }, {
+    "type" : "enum",
+    "name" : "IgnitionSensorType",
+    "symbols" : [ "NONE", "ENABLED" ]
+  }, {
+    "type" : "enum",
+    "name" : "DoorSensorType",
+    "symbols" : [ "NONE", "ACTIVE_MINUS", "ACTIVE_PLUS", "CAN" ]
+  }, {
+    "type" : "enum",
+    "name" : "BrakeSensorType",
+    "symbols" : [ "NONE", "ENABLED" ]
+  }, {
+    "type" : "enum",
+    "name" : "HandbrakeSensorType",
+    "symbols" : [ "NONE", "ENABLED", "CAN" ]
+  }, {
+    "type" : "enum",
+    "name" : "TrunkSensorType",
+    "symbols" : [ "NONE", "ENABLED", "CAN" ]
+  }, {
+    "type" : "enum",
+    "name" : "LightOffMethod",
+    "symbols" : [ "DOUBLE_LOCK", "UNLOCK_LOCK", "LOCK" ]
+  }, {
+    "type" : "enum",
+    "name" : "TelemetryTrackingMode",
+    "symbols" : [ "EVERYTHING", "NOTHING", "HIDE_LOCATION", "PROOF_OF_OWNERSHIP" ]
+  }, {
+    "type" : "record",
+    "name" : "PlaDeviceSettings",
+    "fields" : [ ]
+  }, {
+    "type" : "record",
+    "name" : "DeviceSettings",
+    "fields" : [ {
+      "name" : "revision",
+      "type" : "int"
+    }, {
+      "name" : "permanentHubErrorTimeout",
+      "type" : "int"
+    }, {
+      "name" : "provisioningDelayRange",
+      "type" : "int"
+    }, {
+      "name" : "pingInterval",
+      "type" : "int"
+    }, {
+      "name" : "pingLostThreshold",
+      "type" : "int"
+    }, {
+      "name" : "model",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "gearbox",
+      "type" : [ "null", "GearboxType" ]
+    }, {
+      "name" : "rpmSensor",
+      "type" : [ "null", "RpmSensorType" ]
+    }, {
+      "name" : "ignitionSensor",
+      "type" : [ "null", "IgnitionSensorType" ]
+    }, {
+      "name" : "doorSensor",
+      "type" : [ "null", "DoorSensorType" ]
+    }, {
+      "name" : "brakeSensor",
+      "type" : [ "null", "BrakeSensorType" ]
+    }, {
+      "name" : "handbrakeSensor",
+      "type" : [ "null", "HandbrakeSensorType" ]
+    }, {
+      "name" : "trunkSensor",
+      "type" : [ "null", "TrunkSensorType" ]
+    }, {
+      "name" : "enableRelock",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "engineWorkTime",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "weakPunchThreshold",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "strongPunchThreshold",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "turboTimerTime",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "doorAutoLock",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "doorAutoUnlock",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "skipLockByTurboTimer",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "lightOffMethod",
+      "type" : [ "null", "LightOffMethod" ]
+    }, {
+      "name" : "delayBeforeLock",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "delayBeforeStart",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "hasIgnitionButton",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "longPacketTimeout",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "shortPacketTimeout",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "telemetryTracking",
+      "type" : [ "null", "TelemetryTrackingMode" ]
+    }, {
+      "name" : "proofEngineOnMaxTime",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "isSelfDiagnosticsEnabled",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "speedLimits",
+      "type" : {
+        "type" : "map",
+        "values" : [ "null", "int" ]
+      }
+    }, {
+      "name" : "ephemeridesPollInterval",
+      "type" : "int"
+    }, {
+      "name" : "pla",
+      "type" : "PlaDeviceSettings"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "LogUploadRequest",
+    "fields" : [ {
+      "name" : "revision",
+      "type" : "int"
+    }, {
+      "name" : "targetUrl",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "LogUploadStatus",
+    "symbols" : [ "PENDING", "UPLOADING", "SUCCEEDED", "FAILED" ]
+  }, {
+    "type" : "enum",
+    "name" : "LogUploadError",
+    "symbols" : [ "INTERNAL_DEVICE_ERROR", "SERVER_CONNECTION_ERROR", "INVALID_SERVER_CERTIFICATE", "INVALID_SERVER_RESPONSE", "LOW_SPEED", "CONNECTION_TIMEOUT", "CANCELLED" ]
+  }, {
+    "type" : "record",
+    "name" : "LogUploadInfo",
+    "fields" : [ {
+      "name" : "request",
+      "type" : "LogUploadRequest"
+    }, {
+      "name" : "timestamp",
+      "type" : "int"
+    }, {
+      "name" : "status",
+      "type" : "LogUploadStatus"
+    }, {
+      "name" : "progress",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "errorCode",
+      "type" : [ "null", "LogUploadError" ]
+    }, {
+      "name" : "errorDescription",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "FirmwareUpdateRequest",
+    "fields" : [ {
+      "name" : "revision",
+      "type" : "int"
+    }, {
+      "name" : "version",
+      "type" : "string"
+    }, {
+      "name" : "imageUrl",
+      "type" : "string"
+    }, {
+      "name" : "imageCrc",
+      "type" : "int"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "FirmwareUpdateStatus",
+    "symbols" : [ "PENDING", "DOWNLOADING", "APPLYING", "REBOOTING", "SUCCEEDED", "FAILED" ]
+  }, {
+    "type" : "enum",
+    "name" : "FirmwareUpdateError",
+    "symbols" : [ "INTERNAL_DEVICE_ERROR", "SERVER_CONNECTION_ERROR", "INVALID_SERVER_CERTIFICATE", "INVALID_SERVER_RESPONSE", "INVALID_IMAGE_SIZE", "INVALID_IMAGE_CRC", "INVALID_IMAGE_FORMAT", "INVALID_TARGET_HARDWARE", "LOW_SPEED", "CONNECTION_TIMEOUT", "CANCELLED" ]
+  }, {
+    "type" : "record",
+    "name" : "FirmwareUpdateInfo",
+    "fields" : [ {
+      "name" : "request",
+      "type" : "FirmwareUpdateRequest"
+    }, {
+      "name" : "timestamp",
+      "type" : "int"
+    }, {
+      "name" : "status",
+      "type" : "FirmwareUpdateStatus"
+    }, {
+      "name" : "progress",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "errorCode",
+      "type" : [ "null", "FirmwareUpdateError" ]
+    }, {
+      "name" : "errorDescription",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "FirmwareInfo",
+    "fields" : [ {
+      "name" : "version",
+      "type" : "string"
+    }, {
+      "name" : "updateStatus",
+      "type" : [ "null", "FirmwareUpdateInfo" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "TelemetryTurboModeRequest",
+    "fields" : [ {
+      "name" : "tillTimestamp",
+      "type" : "int"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "PlaDesiredProperties",
+    "fields" : [ ]
+  }, {
+    "type" : "record",
+    "name" : "DesiredProperties",
+    "fields" : [ {
+      "name" : "settings",
+      "type" : [ "null", "DeviceSettings" ]
+    }, {
+      "name" : "firmware",
+      "type" : {
+        "type" : "map",
+        "values" : "FirmwareUpdateRequest"
+      }
+    }, {
+      "name" : "logUpload",
+      "type" : [ "null", "LogUploadRequest" ]
+    }, {
+      "name" : "telemetryTurboMode",
+      "type" : [ "null", "TelemetryTurboModeRequest" ]
+    }, {
+      "name" : "ephemeridesUrl",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "pla",
+      "type" : "PlaDesiredProperties"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "DeviceSettingsUpdateStatus",
+    "symbols" : [ "PENDING", "APPLYING", "REBOOTING", "SUCCEEDED", "FAILED" ]
+  }, {
+    "type" : "enum",
+    "name" : "DeviceSettingsUpdateError",
+    "symbols" : [ "INTERNAL_DEVICE_ERROR", "NOT_SUPPORTED", "CAN_SETTINGS_ERROR" ]
+  }, {
+    "type" : "record",
+    "name" : "DeviceSettingsUpdateInfo",
+    "fields" : [ {
+      "name" : "revision",
+      "type" : "int"
+    }, {
+      "name" : "timestamp",
+      "type" : "int"
+    }, {
+      "name" : "status",
+      "type" : "DeviceSettingsUpdateStatus"
+    }, {
+      "name" : "errorCode",
+      "type" : [ "null", "DeviceSettingsUpdateError" ]
+    }, {
+      "name" : "errorDescription",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "EphemeridesFormat",
+    "symbols" : [ "NONE", "TESEO3_NMEA" ]
+  }, {
+    "type" : "enum",
+    "name" : "EphemeridesUpdateError",
+    "symbols" : [ "INTERNAL_DEVICE_ERROR", "SERVER_CONNECTION_ERROR", "INVALID_SERVER_CERTIFICATE", "INVALID_SERVER_RESPONSE", "INVALID_FILE_SIZE", "INVALID_FILE_FORMAT", "LOW_SPEED", "CONNECTION_TIMEOUT" ]
+  }, {
+    "type" : "record",
+    "name" : "EphemeridesUpdateErrorInfo",
+    "fields" : [ {
+      "name" : "timestamp",
+      "type" : "int"
+    }, {
+      "name" : "errorCode",
+      "type" : "EphemeridesUpdateError"
+    }, {
+      "name" : "errorDescription",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "EphemeridesInfo",
+    "fields" : [ {
+      "name" : "format",
+      "type" : "EphemeridesFormat"
+    }, {
+      "name" : "lastUpdateTimestamp",
+      "type" : "int"
+    }, {
+      "name" : "lastUpdateError",
+      "type" : [ "null", "EphemeridesUpdateErrorInfo" ]
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "DeviceOperatingMode",
+    "symbols" : [ "UNKNOWN", "NORMAL", "STORAGE" ]
+  }, {
+    "type" : "enum",
+    "name" : "DevicePowerMode",
+    "symbols" : [ "UNKNOWN", "ACTIVE", "PASSIVE", "PASSIVE_GPS", "DEEP_SLEEP" ]
+  }, {
+    "type" : "record",
+    "name" : "CalibrationFactors",
+    "fields" : [ {
+      "name" : "x1",
+      "type" : "int"
+    }, {
+      "name" : "x2",
+      "type" : "int"
+    }, {
+      "name" : "x3",
+      "type" : "int"
+    }, {
+      "name" : "y1",
+      "type" : "int"
+    }, {
+      "name" : "y2",
+      "type" : "int"
+    }, {
+      "name" : "y3",
+      "type" : "int"
+    }, {
+      "name" : "z1",
+      "type" : "int"
+    }, {
+      "name" : "z2",
+      "type" : "int"
+    }, {
+      "name" : "z3",
+      "type" : "int"
+    }, {
+      "name" : "zeroZ1",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "zeroZ2",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "zeroZ3",
+      "type" : [ "null", "int" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "PlaReportedProperties",
+    "fields" : [ ]
+  }, {
+    "type" : "record",
+    "name" : "ReportedProperties",
+    "fields" : [ {
+      "name" : "protocolVersion",
+      "type" : "string"
+    }, {
+      "name" : "features",
+      "type" : {
+        "type" : "map",
+        "values" : "string"
+      }
+    }, {
+      "name" : "immoKey",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "engineBlocked",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "iccid",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "vin",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "productId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "settings",
+      "type" : [ "null", "DeviceSettings" ]
+    }, {
+      "name" : "settingsUpdate",
+      "type" : [ "null", "DeviceSettingsUpdateInfo" ]
+    }, {
+      "name" : "firmware",
+      "type" : {
+        "type" : "map",
+        "values" : "FirmwareInfo"
+      }
+    }, {
+      "name" : "logUpload",
+      "type" : [ "null", "LogUploadInfo" ]
+    }, {
+      "name" : "operatingMode",
+      "type" : [ "null", "DeviceOperatingMode" ]
+    }, {
+      "name" : "powerMode",
+      "type" : [ "null", "DevicePowerMode" ]
+    }, {
+      "name" : "calibrationFactors",
+      "type" : [ "null", "CalibrationFactors" ]
+    }, {
+      "name" : "ephemerides",
+      "type" : [ "null", "EphemeridesInfo" ]
+    }, {
+      "name" : "pla",
+      "type" : "PlaReportedProperties"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "TwinProperties",
+    "fields" : [ {
+      "name" : "desired",
+      "type" : "DesiredProperties"
+    }, {
+      "name" : "reported",
+      "type" : "ReportedProperties"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "DeviceTwin",
+    "fields" : [ {
+      "name" : "properties",
+      "type" : "TwinProperties"
+    } ]
+  } ],
+  "messages" : { }
+}

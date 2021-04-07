@@ -1,4 +1,5 @@
-import com.google.protobuf.gradle.proto
+import com.google.protobuf.gradle.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.4.32"
@@ -22,29 +23,13 @@ subprojects {
 
     dependencies {
         implementation("com.google.protobuf:protobuf-java:3.11.1")
-
-    }
-
-    if (name == "vehicle-state-tracking") {
-        dependencies {
-            implementation("io.grpc:grpc-protobuf:$protobufVersion")
-            implementation("io.grpc:grpc-netty-shaded:$protobufVersion")
-            implementation("io.grpc:grpc-stub:$protobufVersion")
-            implementation("io.grpc:protoc-gen-grpc-kotlin:$grpcKotlinVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
-            implementation("javax.annotation:javax.annotation-api:1.3.2")
-
-//    api("com.google.protobuf:protobuf-java-util:$protocVersion")
-//    api("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
-            implementation("io.grpc:grpc-kotlin-stub:$grpcKotlinVersion")
-        }
     }
 
     java {
         toolchain { languageVersion.set(JavaLanguageVersion.of(15)) }
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "15"
     }
 
@@ -72,5 +57,21 @@ subprojects {
                 srcDir("src/main/proto")
             }
         }
+    }
+
+    protobuf {
+        generatedFilesBaseDir = "$projectDir/gen"
+        protoc {
+            artifact = "com.google.protobuf:protoc:$protocVersion"
+        }
+        generateProtoTasks {
+            all().forEach {
+                it.builtins { }
+            }
+        }
+    }
+
+    tasks.withType<Delete> {
+        delete(protobuf.protobuf.generatedFilesBaseDir)
     }
 }
